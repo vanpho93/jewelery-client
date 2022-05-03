@@ -44,7 +44,27 @@
               "src/assets/fonts/flaticon/flaticon.css",
               "src/assets/css/style.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-1.12.4.min.js",
+              "src/assets/js/jquery.plugin-countdown.min.js",
+              "src/assets/js/jquery-countdown.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/owl.carousel.min.js",
+              "src/assets/js/magnific-popup.min.js",
+              "src/assets/js/isotope.min.js",
+              "src/assets/js/jquery.scrollbar.min.js",
+              "src/assets/js/jquery-ui.min.js",
+              "src/assets/js/mobile-menu.js",
+              "src/assets/js/chosen.min.js",
+              "src/assets/js/slick.js",
+              "src/assets/js/jquery.elevateZoom.min.js",
+              "src/assets/js/jquery.actual.min.js",
+              "src/assets/js/fancybox/source/jquery.fancybox.js",
+              "src/assets/js/lightbox.min.js",
+              "src/assets/js/owl.thumbs.min.js",
+              "src/assets/js/jquery.scrollbar.min.js",
+              "src/assets/js/frontend-plugin.js"
+            ]
           },
           "configurations": {
             "production": {
