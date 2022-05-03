@@ -27,7 +27,22 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/font-awesome.min.css",
+              "src/assets/css/owl.carousel.min.css",
+              "src/assets/css/animate.min.css",
+              "src/assets/css/jquery-ui.css",
+              "src/assets/css/slick.css",
+              "src/assets/css/chosen.min.css",
+              "src/assets/css/pe-icon-7-stroke.css",
+              "src/assets/css/magnific-popup.min.css",
+              "src/assets/css/lightbox.min.css",
+              "src/assets/js/fancybox/source/jquery.fancybox.css",
+              "src/assets/css/jquery.scrollbar.min.css",
+              "src/assets/css/mobile-menu.css",
+              "src/assets/fonts/flaticon/flaticon.css",
+              "src/assets/css/style.css"
             ],
             "scripts": []
           },
