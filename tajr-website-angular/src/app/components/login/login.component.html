@@ -1,0 +1,93 @@
+<!-- blue line  -->
+<div class="bg-primary pt-2"></div>
+<!--content-->
+<div class="bg-light">
+  <div class="container-fluid">
+
+    <div class="row d-md-none">
+      <div class="col text-right p-2 d-flex align-items-center justify-content-end">
+          <span class="text-warning small">
+          الاعلان والبيع مجاناً... بدون عموله
+          </span>
+        <a class="btn btn-primary WIDTH_150 ml-2"
+           routerLink="/list-an-item">
+          <span class="material-icons">add</span>
+          أضف إعلانك
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 text-right pb-5">
+        <form [formGroup]="loginForm" (keyup)="errorMessage = ''" (ngSubmit)="loginForm.valid && login()">
+          <!-- title -->
+          <div class="row">
+            <div class="col mt-5">
+              <h4 class="text-warning">تسجيل الدخول</h4>
+            </div>
+          </div>
+          <!-- text "Do not have an account? Register now" -->
+          <div class="row">
+            <div class="col mt-4">
+              <p class="text-secondary">لا تمتلك حساب؟ <a routerLink="/tnc">سـجّـل الأن</a></p>
+            </div>
+          </div>
+          <!-- mobile number -->
+          <div class="row">
+            <div class="col mt-3">
+              <label for="mobileNumber-xl" class="font-weight-bold text-secondary">كم رقم جوالك؟</label>
+              <input type="text" class="form-control  text-right" placeholder="أدخل رقم جوالك مثلا 0500010008"
+                     id="mobileNumber-xl"
+                     formControlName="mobile_number" autocomplete="on">
+            </div>
+          </div>
+          <!-- password -->
+          <div class="row">
+            <div class="col mt-5">
+              <label for="password-xl" class="font-weight-bold text-secondary">كلمة السر</label>
+              <input type="password" class="form-control  text-right" id="password-xl" formControlName="password"
+                     autocomplete="on">
+            </div>
+          </div>
+          <!-- register error  -->
+          <div class="row ">
+            <div class="col position-absolute mt-3">
+              <small class="text-danger pt-3"
+                     *ngIf="loginForm.controls.mobile_number.dirty && !loginForm.controls.mobile_number.valid">
+            <span *ngIf="loginForm.controls.mobile_number.errors?.required">
+              {{requireMobileNumberMessage}}</span>
+                <span *ngIf="loginForm.controls.mobile_number.errors.pattern">
+              {{regexMobileNumberMessage}}</span>
+              </small>
+              <small class="text-danger pt-3">
+            <span
+              *ngIf="loginForm.controls.mobile_number.valid && loginForm.controls.password.dirty && loginForm.controls.password.errors?.required ">
+              {{requirePasswordrMessage}}</span>
+                <span>{{errorMessage}}</span>
+              </small>
+            </div>
+          </div>
+          <!-- login button -->
+          <div class="row">
+            <div class="col mt-5">
+              <button type="submit" class="btn btn-primary btn-block" *ngIf="!loading">{{loginMess}}</button>
+              <button class="btn alert-primary text-white btn-block d-flex align-items-center justify-content-center "
+                      *ngIf="loading" disabled>
+                {{loadingMess}}
+                <span class="spinner-border spinner-border-sm mx-2"></span>
+              </button>
+            </div>
+          </div>
+          <!-- link go to reset page -->
+          <div class="row">
+            <div class="col mt-4">
+              <a routerLink="/reset-password">هل نسيت كلمة السر؟</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- blue line  -->
+<div class="bg-primary pt-2"></div>

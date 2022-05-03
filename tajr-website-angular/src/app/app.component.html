@@ -1,0 +1,5 @@
+<!--appShellNoRender: for server side rendering show component don't want to wait all page load fnished-->
+<app-header></app-header>
+<router-outlet [ngClass]="showContent?'':'d-none'"></router-outlet>
+<app-shell-render [ngClass]="showContent?'d-none':''" >/</app-shell-render>
+<app-footer></app-footer>

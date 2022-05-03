@@ -1,0 +1,92 @@
+<!-- login modal -->
+<div class="container-fluid" [ngClass]="screenWidth <= 575 ? 'px-0':'' ">
+  <div class="row">
+    <div class="col">
+      <!-- menu and close button on login modal-->
+      <div class="d-flex justify-content-between align-items-center pt-3">
+        <a href="javascript:void(0);"
+           (click)="closeModal()">
+          <img class="img-fluid" src="../../../assets/images/icon-images/tajr-icon-000042.png">
+        </a>
+        <h5 class="modal-title text-warning">تسجيل الدخول</h5>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="loginModalForm" (keyup)="errorMessage = ''" (ngSubmit)="loginModalForm.valid && login()"
+            class="text-right">
+        <!-- text "Do not have an account? Register now" -->
+        <div class="row">
+          <div class="col mt-4">
+            <p class="text-secondary">
+              لا تمتلك حساب؟
+              <a routerLink="/tnc" (click)="closeModal()">
+                سـجّـل الأن
+              </a>
+            </p>
+          </div>
+        </div>
+        <!-- mobile number -->
+        <div class="row">
+          <div class="col mt-3">
+            <label for="modalLoginMobileNumber" class="font-weight-bold text-secondary">
+              كم رقم جوالك؟
+            </label>
+            <input type="text" class="form-control text-right"
+                   placeholder="أدخل رقم جوالك مثلا 0500010008"
+                   formControlName="mobile_number" autocomplete="on" id="modalLoginMobileNumber">
+          </div>
+        </div>
+        <!-- password -->
+        <div class="row">
+          <div class="col mt-5">
+            <label for="modalLoginPassword" class="font-weight-bold text-secondary">
+              كلمة السر
+            </label>
+            <input type="password" class="form-control text-right"
+                   id="modalLoginPassword" formControlName="password"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- register error  -->
+        <div class="row" dir="rtl">
+          <div class="col position-absolute">
+            <small class="text-danger pt-3"
+                   *ngIf="loginModalForm.controls.mobile_number.dirty && !loginModalForm.controls.mobile_number.valid">
+            <span *ngIf="loginModalForm.controls.mobile_number.errors?.required">
+              {{requireMobileNumberMessage}}</span>
+              <span *ngIf="loginModalForm.controls.mobile_number.errors.pattern">
+              {{regexMobileNumberMessage}}</span>
+            </small>
+            <small class="text-danger pt-3">
+            <span
+              *ngIf="loginModalForm.controls.mobile_number.valid && loginModalForm.controls.password.dirty && loginModalForm.controls.password.errors?.required ">
+              {{requirePasswordrMessage}}</span>
+              <span>{{errorMessage}}</span>
+            </small>
+          </div>
+        </div>
+        <!-- login button -->
+        <div class="row">
+          <div class="col mt-5">
+            <button type="submit" class="btn btn-primary btn-block" *ngIf="!loading">{{loginMess}}</button>
+            <button class="btn alert-primary text-white btn-block d-flex align-items-center justify-content-center "
+                    *ngIf="loading" disabled>
+              {{loadingMess}}
+              <span class="spinner-border spinner-border-sm mx-2"></span>
+            </button>
+          </div>
+        </div>
+        <!-- link go to reset page -->
+        <div class="row">
+          <div class="col mt-4 pb-4">
+            <a routerLink="/reset-password" (click)="closeModal()">هل نسيت كلمة السر؟</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+

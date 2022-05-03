@@ -1,0 +1,36 @@
+<div class="container-fluid" *ngIf="photoList && 0 < photoList.length">
+  <div class="row" [ngClass]="screenWidth<=991?'fixed-top bg-white':''">
+    <div class="col py-1">
+      <div class="d-flex justify-content-between align-items-center px-2">
+        <a class="rounded rounded-circle bg-white p-3 border-0"
+           (click)="closeModal()">
+          <img class="img-fluid" src="../../../assets/images/icon-images/tajr-icon-000042.png">
+        </a>
+        <h1 class="text-warning mb-0"> {{activeSlideIndex + 1 }} / {{photoList.length}}</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col px-0">
+      <swiper
+        [navigation]="true"
+        [keyboard]="true"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange($event)"
+        class="bg-light mainCarouselListItem">
+        <ng-template swiperSlide *ngFor="let item of photoList; let index=index">
+          <mat-card class="rounded-lg bg-white p-0">
+            <mat-card-header class="embed-responsive"
+                             [ngClass]="screenWidth >= 1200 ? 'embed-responsive-16by9':
+                               screenWidth >= 991 && screenWidth < 1200 ? 'embed-responsive-4by3':'embed-responsive-4by3' ">
+              <img class="img-fluid embed-responsive-item tajrImage" [src]="item.photoCarousel" [alt]="item.imageTitle">
+            </mat-card-header>
+          </mat-card>
+        </ng-template>
+      </swiper>
+    </div>
+  </div>
+
+</div>
+

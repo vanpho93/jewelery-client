@@ -1,0 +1,80 @@
+<!-- blue line  -->
+<div class="bg-primary pt-2"></div>
+<!--content-->
+<div class="bg-light">
+  <div class="container-fluid">
+
+    <div class="row d-md-none">
+      <div class="col text-right p-2 d-flex align-items-center justify-content-end">
+          <span class="text-warning small">
+          الاعلان والبيع مجاناً... بدون عموله
+          </span>
+        <a class="btn btn-primary WIDTH_150 ml-2"
+           routerLink="/list-an-item">
+          <span class="material-icons">add</span>
+          أضف إعلانك
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 text-right pb-5">
+        <form [formGroup]="registerMobileForm" (keyup)="errorMessage = ''"
+              (ngSubmit)="registerMobileForm.valid && register()">
+          <!-- title -->
+          <div class="row">
+            <div class="col mt-5">
+              <h4 class="text-warning">التسجيل بالموقع </h4>
+            </div>
+          </div>
+          <!-- mobile number -->
+          <div class="row">
+            <div class="col mt-3">
+              <label for="mobileNumber-lg" class="font-weight-bold text-secondary">كم رقم جوالك؟</label>
+              <input id="mobileNumber-lg" type="tel" class="form-control text-right" formControlName="mobile_number"
+                     autocomplete="on"
+                     placeholder="أدخل رقم جوالك مثلا 0500010008">
+            </div>
+          </div>
+          <!-- error mobile number -->
+          <div class="row ">
+            <div class="col position-absolute mt-1">
+              <small class="text-danger pt-3"
+                     *ngIf="registerMobileForm.controls.mobile_number.dirty && !registerMobileForm.controls.mobile_number.valid">
+            <span *ngIf="registerMobileForm.controls.mobile_number.errors?.required">
+              {{requireMobileNumberMessage}}</span>
+                <span *ngIf="registerMobileForm.controls.mobile_number.errors.pattern">
+              {{regexMobileNumberMessage}}</span>
+              </small>
+              <small class="text-danger pt-3">
+                <span>{{errorMessage}}</span>
+              </small>
+            </div>
+          </div>
+          <!-- register button -->
+          <div class="row">
+            <div class="col mt-5">
+              <button type="submit" class="btn btn-primary btn-block" *ngIf="!loading">{{signUpMess}}</button>
+              <button class="btn alert-primary text-white btn-block d-flex align-items-center justify-content-center "
+                      *ngIf="loading" disabled>
+                {{loadingMess}}
+                <span class="spinner-border spinner-border-sm mx-2"></span>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mt-5">
+              <p class="border-top text-secondary pt-2" dir="rtl">
+                التسجيل في تاجر‎ يتطلب وجود رقم جوال. جميع معلوماتك لدينا هي أمانة في ذمتنا ونتعهد بالحفاظ
+                عليها.
+                لمزيد من التفاصيل، نرجو زيارة صفحة معاهدة استخدام الموقع.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- blue line  -->
+<div class="bg-primary pt-2"></div>

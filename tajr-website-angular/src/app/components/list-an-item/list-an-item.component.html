@@ -1,0 +1,695 @@
+<!-- blue line  -->
+<div class="bg-primary pt-2"></div>
+<!-- Progress Menu -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 ">
+      <div class="row mt-3">
+        <div class="col text-right p-0">
+          <a href="javascript:void(0);" class="text-decoration-none text-secondary"
+             [ngClass]="screenWidth >768?'':'small'" dir="rtl"> 4.
+            تأكيد
+            معلومات الإعلان</a>
+        </div>
+        <div class="col text-right p-0">
+          <a href="javascript:void(0);" class="text-decoration-none text-secondary"
+             [ngClass]="screenWidth >768?'':'small'" dir="rtl"> 3.
+            معلومات
+            الإعلان</a>
+        </div>
+        <div class="col text-right p-0">
+          <a href="javascript:void(0);" class="text-decoration-none text-secondary"
+             [ngClass]="screenWidth >768?'':'small'" dir="rtl"> 2.
+            الصور</a>
+        </div>
+        <div class="col text-right ">
+          <a routerLink="/list-an-item" class="text-decoration-none text-secondary font-weight-bold"
+             [ngClass]="screenWidth >768?'':'small'"
+             dir="rtl">1.
+            معلومات السيارة</a>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <div class="progress h-100">
+            <div class="progress-bar bg-light w-75 pt-1" role="progressbar" aria-valuenow="0"
+                 aria-valuemin="0" aria-valuemax="100">
+            </div>
+            <div class="progress-bar bg-warning w-25 pt-1" role="progressbar" aria-valuenow="0"
+                 aria-valuemin="0" aria-valuemax="100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- list an item form -->
+<div class="container-fluid mt-2 ">
+  <div class="row pt-1">
+    <div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 text-right">
+      <p class="text-secondary mb-2" dir="rtl"><small> جميع الخانات المتبوعه بنجمه هي خانات
+        مطلوبة لأنزال الإعلان </small>(<span class="text-danger">*</span>)</p>
+    </div>
+  </div>
+  <!-- list an item form -->
+  <div class="row">
+    <div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2"
+    *ngIf="allMotorsCategories">
+      <form class="bg-light border rounded p-3"
+            [formGroup]="allCategoriesForm"
+            (ngSubmit)="onSubmit()">
+        <!-- Car Details -->
+        <h4 class="text-warning text-right">معلومات السيارة</h4>
+        <div class="dropdown-divider"></div>
+        <!-- car -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <span class="text-danger">*</span> <label
+            class="font-weight-bold text-secondary vehicleType-displayName"
+            for="vehicleType">{{allMotorsCategories.name.arabic}}</label>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">
+                <select class="form-control text-secondary vehicleType py-0"
+                        dir="rtl" id="vehicleType"
+                        [(ngModel)]='listAnItemModules.categoryId'
+                        (change)="getCategoryDetailsByID()"
+                        formControlName="categoryId"
+                        autocomplete="on">
+                  <option value="">أختر</option>
+                  <option *ngFor="let category of allMotorsCategories.subcategories"
+                          value="{{category.id}}">{{category.name.arabic}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- errorCarDetails-->
+            <div class="row ">
+              <div class="col text-right mt-1">
+                <small class="text-danger pt-3"
+                       *ngIf="(allCategoriesForm.controls.categoryId.dirty || submitted)  && !allCategoriesForm.controls.categoryId.valid">
+                  <span *ngIf="allCategoriesForm.controls.categoryId.errors?.required">
+                {{requireCategoryIdMessage}}
+                </span>
+                  <span *ngIf="allCategoriesForm.controls.categoryId.errors?.pattern">
+                {{requireCategoryIdMessage}}
+                </span>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[35].model -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <span class="text-danger">*</span> <label
+            class="font-weight-bold text-secondary model-displayName" for="model">
+            {{showAttributesLable('model')}}
+          </label>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">
+                <select class="form-control text-secondary model py-0" dir="rtl"
+                        id="model"
+                        [(ngModel)]='listAnItemModules.model'
+                        formControlName="model"
+                        autocomplete="on">
+                  <option value="">أختر</option>
+                  <option *ngFor="let model of modelOptions"
+                          value="{{model.value}}">{{model.display.arabic}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- errorModel -->
+            <div class="row ">
+              <div class="col text-right mt-1">
+                <small class="text-danger pt-3"
+                       *ngIf="submitted  && !allCategoriesForm.controls.model.valid">
+                  <span *ngIf="allCategoriesForm.controls.model.errors?.required">
+                {{requireModeldMessage}}
+                </span>
+                  <span *ngIf="allCategoriesForm.controls.model.errors?.pattern">
+                {{requireModeldMessage}}
+                </span>
+                </small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[3].Model detail -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary modelDetail-displayName"
+                   for="modelDetail">
+              {{showAttributesLable('modelDetail')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <input class="form-control text-secondary text-right modelDetail py-0"
+                   id="modelDetail"
+                   [(ngModel)]='listAnItemModules.modelDetail'
+                   [maxLength]="validatorsMaxLength('modelDetail')"
+                   formControlName="modelDetail"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- errorModelDetail -->
+        <div class="row ">
+          <div class="col text-right mt-1">
+            <small class="text-danger errorModelDetail"></small>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[10].year -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <span class="text-danger">*</span> <label
+            class="font-weight-bold text-secondary year-displayName" for="year">
+            {{showAttributesLable('year')}}
+          </label>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">
+                       <select class="form-control text-secondary model py-0" dir="rtl"
+                        id="year"
+                        [(ngModel)]='listAnItemModules.year'
+                        formControlName="year"
+                        autocomplete="on">
+                  <option value="">أختر</option>
+                  <option *ngFor="let year of yearOptions"
+                          value="{{year.value}}">{{year.display.arabic}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- errorYear -->
+            <div class="row ">
+              <div class="col text-right mt-1">
+                <small class="text-danger pt-3"
+                       *ngIf="submitted  && !allCategoriesForm.controls.year.valid">
+                <span *ngIf="allCategoriesForm.controls.year.errors?.required">
+                  {{regexYearMessage}}
+                </span>
+                  <span *ngIf="allCategoriesForm.controls.year.errors?.pattern">
+                  {{regexYearMessage}}
+                </span>
+                  <span *ngIf="allCategoriesForm.controls.year.errors?.min">
+                    {{regexYearMessage}}
+                  </span>
+                  <span *ngIf="allCategoriesForm.controls.year.errors?.max">
+                   {{regexYearMessage}}
+                  </span>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[18].Kilometres  -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <span class="text-danger">*</span> <label
+            class="font-weight-bold text-secondary kilometers-displayName" for="kilometers">
+            {{showAttributesLable('kilometers')}}
+          </label>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">
+                <input class="form-control text-secondary text-right kilometers py-0"
+                       type="number" id="kilometers"
+                       placeholder="0"
+                       [(ngModel)]='listAnItemModules.kilometers'
+                       formControlName="kilometers"
+                       autocomplete="on">
+              </div>
+            </div>
+            <!-- errorKilometres -->
+            <div class="row ">
+              <div class="col text-right mt-1 ">
+                <small class="text-danger errorKilometres">
+                  <small class="text-danger pt-3"
+                         *ngIf="submitted  && !allCategoriesForm.controls.kilometers.valid">
+                <span *ngIf="allCategoriesForm.controls.kilometers.errors?.required">
+                  {{requireKilometresMessage}}
+                </span>
+                    <span *ngIf="allCategoriesForm.controls.kilometers.errors?.min">
+                    {{requireKilometresMinMessage}}
+                  </span>
+                    <span *ngIf="allCategoriesForm.controls.kilometers.errors?.max">
+                   {{requireKilometresMaxMessage}}
+                  </span>
+                  </small>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[7].exteriorColor -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary exteriorColor-displayName"
+                   for="exteriorColor">
+              {{showAttributesLable('exteriorColor')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <input class="form-control text-secondary text-right exteriorColor py-0"
+                   id="exteriorColor"
+                   [(ngModel)]='listAnItemModules.exteriorColor'
+                   [maxLength]="validatorsMaxLength('exteriorColor')"
+                   formControlName="exteriorColor"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- errorExteriorColor -->
+        <div class="row ">
+          <div class="col text-right mt-1 ">
+            <small class="text-danger errorExteriorColor"></small>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[11].doors -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary doors-displayName" for="doors">
+              {{showAttributesLable('doors')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary doors py-0"
+                    dir="rtl"
+                    id="doors"
+                    [(ngModel)]='listAnItemModules.doors'
+                    formControlName="doors"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('doors')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[6].Body style -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <span class="text-danger">*</span> <label
+            class="font-weight-bold text-secondary bodyStyle-displayName" for="bodyStyle">
+            {{showAttributesLable('bodyStyle')}}
+          </label>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">
+                <select class="form-control text-secondary bodyStyle py-0" dir="rtl"
+                        id="bodyStyle"
+                        [(ngModel)]='listAnItemModules.bodyStyle'
+                        formControlName="bodyStyle"
+                        autocomplete="on">
+                  <option value="">أختر</option>
+                  <option *ngFor="let item of showSelectTabOptionItems('bodyStyle')"
+                          value="{{item.value}}">{{item.display.arabic}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- errorBodyStyle-->
+            <div class="row ">
+              <div class="col text-right mt-1">
+                <small class="text-danger errorBodyStyle">
+                  <small class="text-danger pt-3"
+                         *ngIf="submitted && !allCategoriesForm.controls.bodyStyle.valid">
+                <span *ngIf="allCategoriesForm.controls.bodyStyle.errors?.required">
+                {{requireBodyStyleMessage}}
+                </span>
+                    <span *ngIf="allCategoriesForm.controls.bodyStyle.errors?.pattern">
+                {{requireBodyStyleMessage}}
+                </span>
+                  </small>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[16].seat -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary seats-displayName" for="seats">
+              {{showAttributesLable('seats')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <input class="form-control text-secondary text-right seats py-0"
+                   type="number" id="seats"
+                   placeholder="0"
+                   [(ngModel)]='listAnItemModules.seats'
+                   [min]="validatorsLower('seats')"
+                   [max]="validatorsUpper('seats')"
+                   formControlName="seats"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- errorSeats-->
+        <div class="row ">
+          <div class="col text-right mt-1">
+            <small class="text-danger errorSeats">
+              <small class="text-danger pt-3"
+                     *ngIf="submitted  && !allCategoriesForm.controls.seats.valid">
+                    <span *ngIf="allCategoriesForm.controls.seats.errors?.min">
+                    {{requireSeatMinMessage}}
+                  </span>
+                <span *ngIf="allCategoriesForm.controls.seats.errors?.max">
+                   {{requireSeatMaxMessage}}
+                  </span>
+              </small>
+            </small>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[0].Fuel type -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary fuelType-displayName" for="fuelType">
+              {{showAttributesLable('fuelType')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary fuelType py-0" dir="rtl"
+                    id="fuelType"
+                    [(ngModel)]='listAnItemModules.fuelType'
+                    formControlName="fuelType"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('fuelType')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[21].cylinders -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary cylinders-displayName" for="cylinders">
+              {{showAttributesLable('cylinders')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary cylinders py-0" dir="rtl"
+                    id="cylinders"
+                    [(ngModel)]='listAnItemModules.cylinders'
+                    formControlName="cylinders"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('cylinders')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[20].engineSize -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary  engineSize-displayName"
+                   for="engineSize">
+              {{showAttributesLable('engineSize')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <input class="form-control text-secondary text-right engineSize py-0"
+                   type="number" id="engineSize"
+                   placeholder="0"
+                   [(ngModel)]='listAnItemModules.engineSize'
+                   formControlName="engineSize"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- errorEngineSize -->
+        <div class="row ">
+          <div class="col text-right mt-1">
+            <small class="text-danger errorEngineSize">
+              <small class="text-danger pt-3"
+                     *ngIf="submitted  && !allCategoriesForm.controls.engineSize.valid">
+                    <span *ngIf="allCategoriesForm.controls.engineSize.errors?.min">
+                    {{requireEngineSizeMinMessage}}
+                  </span>
+                <span *ngIf="allCategoriesForm.controls.engineSize.errors?.max">
+                   {{requireEngineSizeMaxMessage}}
+                  </span>
+              </small>
+            </small>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[12].transmission -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary transmission-displayName"
+                   for="transmission">
+              {{showAttributesLable('transmission')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary transmission py-0" dir="rtl"
+                    id="transmission"
+                    [(ngModel)]='listAnItemModules.transmission'
+                    formControlName="transmission"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('transmission')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[25].fourWheelDrive -->
+        <div class="row">
+          <div class="col text-right align-self-center">
+            <label class="text-secondary mb-0" for="fourWheelDrive">
+              <!-- Yes-->نعم &nbsp;
+              <input type="checkbox" id="fourWheelDrive"
+                     [ngModel]="listAnItemModules.fourWheelDrive === 'true'"
+                     formControlName="fourWheelDrive"
+                     autocomplete="on">
+            </label>
+          </div>
+          <div class="col-auto text-right align-self-center">
+            <label class="font-weight-bold text-secondary fourWheelDrive-displayName" for="fourWheelDrive">
+              {{showAttributesLable('fourWheelDrive')}}
+            </label>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[14].Number of owners -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary numberOfOwners-displayName"
+                   for="numberOfOwners">
+              {{showAttributesLable('numberOfOwners')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary numberOfOwners py-0" dir="rtl"
+                    id="numberOfOwners"
+                    [(ngModel)]='listAnItemModules.numberOfOwners'
+                    formControlName="numberOfOwners"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('numberOfOwners')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[15].Import history -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary importHistory-displayName"
+                   for="importHistory">
+              {{showAttributesLable('importHistory')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary importHistory py-0" dir="rtl"
+                    id="importHistory"
+                    [(ngModel)]='listAnItemModules.importHistory'
+                    formControlName="importHistory"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('importHistory')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[9].mvpiExpires-displayName -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary mvpiExpires-displayName"
+                   for="mvpiExpires">
+              {{showAttributesLable('mvpiExpires')}}
+            </label>
+          </div>
+          <div class="col-12">
+            <select class="form-control text-secondary mvpiExpires py-0" dir="rtl"
+                    id="mvpiExpires"
+                    [(ngModel)]='listAnItemModules.mvpiExpires'
+                    formControlName="mvpiExpires"
+                    autocomplete="on">
+              <option value="">أختر</option>
+              <option *ngFor="let item of showSelectTabOptionItems('mvpiExpires')"
+                      value="{{item.value}}">{{item.display.arabic}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- attributes[8].numberPlate -->
+        <div class="row">
+          <div class="col-12 text-right align-self-center">
+            <label class="font-weight-bold text-secondary numberPlate-displayName"
+                   for="numberPlate">
+              {{showAttributesLable('numberPlate')}}
+            </label>
+          </div>
+          <div class="col-12 text-right align-self-center">
+            <input class="form-control text-secondary text-right numberPlate py-0"
+                   id="numberPlate"
+                   [(ngModel)]='listAnItemModules.numberPlate'
+                   [maxLength]="validatorsMaxLength('numberPlate')"
+                   formControlName="numberPlate"
+                   autocomplete="on">
+          </div>
+        </div>
+        <!-- errorNumberPlate -->
+        <div class="row ">
+          <div class="col text-right mt-1">
+            <small class="text-danger errorNumberPlate"></small>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- Vehicle Features -->
+        <div class="row">
+          <div class="col-12 text-right">
+            <label class="font-weight-bold text-secondary ">مواصفات السيارة</label>
+          </div>
+          <div class="col-12">
+            <div class="row vehicleFeaturesItems">
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0"> {{showAttributesLable('mojazInspectionReport')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.mojazInspectionReport === 'true'"
+                         formControlName="mojazInspectionReport" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('driverAirbag')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.driverAirbag === 'true'"
+                         formControlName="driverAirbag" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('sunroof')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.sunroof === 'true'"
+                         formControlName="sunroof" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0"> {{showAttributesLable('passengerAirbag')}}&nbsp;
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.passengerAirbag === 'true'"
+                         formControlName="passengerAirbag" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('alarm')}}&nbsp;
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.alarm === 'true'"
+                         formControlName="alarm" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('powerSteering')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.powerSteering === 'true'"
+                         formControlName="powerSteering" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('absBrakes')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.absBrakes === 'true'"
+                         formControlName="absBrakes" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0">{{showAttributesLable('airConditioning')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.airConditioning === 'true'"
+                         formControlName="airConditioning" autocomplete="on">
+                </label>
+              </div>
+              <div class="col-12 col-sm-6 text-right">
+                <label class="text-secondary mb-0"> {{showAttributesLable('centralLocking')}}
+                  <input type="checkbox"
+                         [ngModel]="listAnItemModules.centralLocking === 'true'"
+                         formControlName="centralLocking" autocomplete="on">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <!-- Description -->
+        <div class="row">
+          <div class="col-12 text-right">
+            <label class="font-weight-bold text-secondary description-displayName"
+                   for="description">
+              {{showAttributesLable('description')}}
+            </label><br>
+            <small class="text-secondary">أضف اي تفاصيل أخرى عن السياره</small>
+          </div>
+          <div class="col-12">
+                               <textarea class="form-control text-secondary text-right description"
+                                         rows="15"
+                                         id="description"
+                                         [(ngModel)]="listAnItemModules.description"
+                                         [maxLength]="validatorsMaxLength('description')"
+                                         formControlName="description"
+                                         autocomplete="on">
+              </textarea>
+          </div>
+
+        </div>
+        <!-- Next button -->
+        <div class="row  mt-3">
+          <div class="col text-right">
+            <button type="submit" class="btn btn-primary px-5">استمر</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- blue line  -->
+<div class="bg-primary mt-3 pt-2"></div>
